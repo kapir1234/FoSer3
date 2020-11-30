@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoSer">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
@@ -22,6 +23,11 @@
             android:parentActivityName=".MainActivity"
             android:label="@string/label_settings">
         </activity>
-    </application>
 
+        <service android:name=".MyForegroundService"
+            android:enabled="true">
+        </service>
+
+    </application>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
 </manifest>
