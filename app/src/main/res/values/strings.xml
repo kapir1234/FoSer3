@@ -36,4 +36,5 @@
     <!-- Main menu -->
     <string name="titleSettings">Settings</string>
     <string name="titleExit">Exit</string>
+    <string name="countdown">Save count</string>
 </resources>

@@ -4,24 +4,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.SharedPreferences;
 
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
-    private String message;
-    private Boolean show_time, work, work_double;
+    private String message, dropdown_time;
+    private Boolean show_time, work, work_double, resetCountdown;
     private Button buttonStart, buttonStop, buttonRestart;
     private TextView textInfoService, textInfoSettings;
 
@@ -84,8 +86,11 @@ public class MainActivity extends AppCompatActivity {
             startIntent.putExtra(MyForegroundService.TIME,show_time);
             startIntent.putExtra(MyForegroundService.WORK,work);
             startIntent.putExtra(MyForegroundService.WORK_DOUBLE,work_double);
+            startIntent.putExtra(MyForegroundService.DROPDOWN_TIME,dropdown_time);
+            startIntent.putExtra(MyForegroundService.RESET_COUNTDOWN,resetCountdown);
 
-            ContextCompat.startForegroundService(this, startIntent);
+
+        ContextCompat.startForegroundService(this, startIntent);
             updateUI();
         }
 
@@ -107,11 +112,16 @@ public class MainActivity extends AppCompatActivity {
         show_time = sharedPreferences.getBoolean("show_time", true);
         work = sharedPreferences.getBoolean("sync",true);
         work_double = sharedPreferences.getBoolean("double", false);
+        dropdown_time = sharedPreferences.getString("dropdown",dropdown_time);
+        resetCountdown = sharedPreferences.getBoolean("resetCountdown",true);
+
 
         return "Message: " + message + "\n"
                 +"show_time: " + show_time.toString() +"\n"
                 +"work: " + work.toString() + "\n"
-                +"double: " + work_double.toString();
+                +"double: " + work_double.toString() + "\n"
+                +"counter_speed: " + dropdown_time + "ms\n"
+                +"resetCountdown: " + resetCountdown.toString() + "\n";
     }
 
     private void updateUI(){
@@ -145,4 +155,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }
